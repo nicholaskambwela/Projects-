@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guildpost Zambia – Deep Research Report</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0f1923;
+    --paper: #f5f0e8;
+    --amber: #d4850a;
+    --amber-light: #f5c84a;
+    --rust: #b84c1e;
+    --sage: #3a5e44;
+    --steel: #4a6278;
+    --mist: #e8e4da;
+    --divider: #c8c0b0;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 16px; scroll-behavior: smooth; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 400;
+    line-height: 1.75;
+  }
+
+  /* ── MASTHEAD ── */
+  .masthead {
+    background: var(--ink);
+    padding: 0;
+    overflow: hidden;
+    position: relative;
+  }
+  .masthead-inner {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 56px 40px 48px;
+    position: relative;
+    z-index: 2;
+  }
+  .masthead::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0; bottom: 0;
+    width: 38%;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 6px,
+      rgba(212,133,10,0.08) 6px,
+      rgba(212,133,10,0.08) 7px
+    );
+    pointer-events: none;
+  }
+  .tag {
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--amber);
+    border: 1px solid var(--amber);
+    padding: 3px 10px;
+    margin-bottom: 20px;
+  }
+  .masthead h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 6vw, 60px);
+    font-weight: 900;
+    color: #fff;
+    line-height: 1.1;
+    max-width: 620px;
+    margin-bottom: 20px;
+  }
+  .masthead h1 span { color: var(--amber); }
+  .masthead-meta {
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+    border-top: 1px solid rgba(255,255,255,0.12);
+    padding-top: 20px;
+    margin-top: 24px;
+  }
+  .masthead-meta-item { display: flex; flex-direction: column; gap: 2px; }
+  .masthead-meta-item .label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+  }
+  .masthead-meta-item .value {
+    font-size: 13px;
+    color: rgba(255,255,255,0.85);
+    font-weight: 500;
+  }
+
+  /* ── VERDICT BANNER ── */
+  .verdict {
+    background: var(--amber);
+    padding: 0;
+  }
+  .verdict-inner {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 22px 40px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .verdict-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--ink);
+    white-space: nowrap;
+    opacity: 0.7;
+  }
+  .verdict-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.3;
+  }
+
+  /* ── MAIN LAYOUT ── */
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+
+  /* ── SCORE CARDS ── */
+  .scorecard-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--divider);
+    border: 1px solid var(--divider);
+    margin: 48px 0;
+  }
+  .scorecard {
+    background: var(--paper);
+    padding: 24px 20px;
+    text-align: center;
+  }
+  .scorecard-score {
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+    font-weight: 900;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .scorecard-score.high { color: var(--sage); }
+  .scorecard-score.medium { color: var(--amber); }
+  .scorecard-score.low { color: var(--rust); }
+  .scorecard-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(15,25,35,0.5);
+    line-height: 1.4;
+  }
+
+  /* ── SECTION TITLES ── */
+  .section {
+    padding: 48px 0 24px;
+    border-top: 2px solid var(--ink);
+  }
+  .section-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 10px;
+  }
+  .section h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(22px, 3.5vw, 30px);
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 22px;
+  }
+  .section p {
+    font-size: 15px;
+    line-height: 1.8;
+    color: #2a3540;
+    margin-bottom: 14px;
+    max-width: 720px;
+  }
+
+  /* ── CALLOUT BOXES ── */
+  .callout {
+    border-left: 3px solid var(--amber);
+    background: rgba(212,133,10,0.06);
+    padding: 18px 22px;
+    margin: 24px 0;
+    font-size: 14px;
+    line-height: 1.75;
+    color: #1e2d38;
+  }
+  .callout.risk {
+    border-left-color: var(--rust);
+    background: rgba(184,76,30,0.05);
+  }
+  .callout.positive {
+    border-left-color: var(--sage);
+    background: rgba(58,94,68,0.06);
+  }
+  .callout strong { font-weight: 600; color: var(--ink); }
+
+  /* ── DATA TABLE ── */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 24px 0;
+    font-size: 13.5px;
+  }
+  .data-table thead tr {
+    background: var(--ink);
+    color: #fff;
+  }
+  .data-table th {
+    padding: 12px 16px;
+    text-align: left;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .data-table td {
+    padding: 11px 16px;
+    border-bottom: 1px solid var(--divider);
+    vertical-align: top;
+    line-height: 1.6;
+  }
+  .data-table tbody tr:nth-child(even) { background: var(--mist); }
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 2px;
+    font-size: 11px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 500;
+  }
+  .badge.green { background: rgba(58,94,68,0.12); color: var(--sage); }
+  .badge.amber { background: rgba(212,133,10,0.12); color: #a06500; }
+  .badge.red { background: rgba(184,76,30,0.1); color: var(--rust); }
+
+  /* ── TWO-COL ── */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin: 24px 0;
+  }
+  .col-block {
+    background: var(--mist);
+    border: 1px solid var(--divider);
+    padding: 24px;
+  }
+  .col-block h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    margin-bottom: 14px;
+    color: var(--ink);
+  }
+  .col-block ul {
+    list-style: none;
+    padding: 0;
+  }
+  .col-block ul li {
+    font-size: 13.5px;
+    padding: 6px 0 6px 18px;
+    border-bottom: 1px solid var(--divider);
+    position: relative;
+    line-height: 1.6;
+    color: #2a3540;
+  }
+  .col-block ul li:last-child { border-bottom: none; }
+  .col-block ul li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--amber);
+    font-size: 12px;
+    top: 7px;
+  }
+
+  /* ── BOTTOM VERDICT ── */
+  .final-verdict {
+    background: var(--ink);
+    padding: 56px 0;
+    margin-top: 64px;
+  }
+  .final-verdict .container {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 48px;
+    align-items: start;
+  }
+  .verdict-score-big {
+    font-family: 'Playfair Display', serif;
+    font-size: 90px;
+    font-weight: 900;
+    color: var(--amber);
+    line-height: 1;
+  }
+  .verdict-score-sub {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: rgba(255,255,255,0.4);
+    margin-top: 4px;
+  }
+  .verdict-right h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    color: #fff;
+    margin-bottom: 16px;
+    line-height: 1.3;
+  }
+  .verdict-right p {
+    color: rgba(255,255,255,0.72);
+    font-size: 14px;
+    line-height: 1.8;
+    margin-bottom: 12px;
+    max-width: 560px;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--mist);
+    border-top: 1px solid var(--divider);
+    padding: 20px 40px;
+    text-align: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(15,25,35,0.35);
+  }
+
+  @media(max-width:700px){
+    .masthead-inner, .container { padding: 32px 20px; }
+    .scorecard-row { grid-template-columns: 1fr 1fr; }
+    .two-col { grid-template-columns: 1fr; }
+    .final-verdict .container { grid-template-columns: 1fr; }
+    .verdict-inner { flex-direction: column; }
+    footer { padding: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- MASTHEAD -->
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="tag">Deep Research Report · April 2026</div>
+    <h1>Can <span>Guildpost</span> Work in Zambia?</h1>
+    <div class="masthead-meta">
+      <div class="masthead-meta-item">
+        <span class="label">Focus</span>
+        <span class="value">Skilled Trades Labour Market</span>
+      </div>
+      <div class="masthead-meta-item">
+        <span class="label">Geography</span>
+        <span class="value">Zambia · Lusaka-First</span>
+      </div>
+      <div class="masthead-meta-item">
+        <span class="label">Sources</span>
+        <span class="value">World Bank · ILO · TEVETA · ZICTA · GSC</span>
+      </div>
+      <div class="masthead-meta-item">
+        <span class="label">Overall Verdict</span>
+        <span class="value" style="color:#f5c84a;font-weight:700;">Strong Opportunity — Move Fast</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- VERDICT BANNER -->
+<div class="verdict">
+  <div class="verdict-inner">
+    <span class="verdict-label">Bottom Line</span>
+    <span class="verdict-text">The conditions in Zambia are unusually well-aligned for a skilled-trades matching platform right now. The window is open — but it won't stay open forever.</span>
+  </div>
+</div>
+
+<main>
+<div class="container">
+
+  <!-- SCORECARDS -->
+  <div class="scorecard-row">
+    <div class="scorecard">
+      <div class="scorecard-score high">8/10</div>
+      <div class="scorecard-label">Market<br>Need</div>
+    </div>
+    <div class="scorecard">
+      <div class="scorecard-score high">7/10</div>
+      <div class="scorecard-label">Digital<br>Readiness</div>
+    </div>
+    <div class="scorecard">
+      <div class="scorecard-score medium">6/10</div>
+      <div class="scorecard-label">Sector<br>Tailwinds</div>
+    </div>
+    <div class="scorecard">
+      <div class="scorecard-score medium">5/10</div>
+      <div class="scorecard-label">Execution<br>Difficulty</div>
+    </div>
+  </div>
+
+  <!-- SECTION 1: LABOUR MARKET -->
+  <section class="section">
+    <div class="section-num">01 · Labour Market Reality</div>
+    <h2>The Mismatch Is Real and Well-Documented</h2>
+    <p>Zambia's official youth unemployment rate sits at roughly 9.9%, per World Bank 2024 figures. But that number dramatically understates the problem. The more telling statistic: roughly 76% of all employed Zambians work in the informal sector, with the formal sector absorbing fewer than 15% of the labour force. And of Zambia's 6.4 million youth aged 15–35, approximately 3 million are classified as NEET — not in education, employment, or training — according to a World Bank skills report.</p>
+    <p>The World Bank's own assessment is stark: Zambia needs to generate over 10 million new jobs by 2050 just to maintain current labour participation rates. Yet the private sector currently cannot create enough productive employment for a rapidly growing working-age population.</p>
+    <div class="callout positive">
+      <strong>The opportunity for Guildpost:</strong> Nearly 70% of employed Zambian youth are in the informal sector or unpaid household work — not because they lack skills, but because there is no structured mechanism connecting them to formal contractors. This is precisely the gap Guildpost is built to fill.
+    </div>
+    <p>Critically, the TEVET (Technical Education, Vocational and Entrepreneurship Training) system produces graduates in electrical, construction, HVAC, welding, and related trades — but the World Bank's skills survey confirms that since 1974, when the government took technician training away from industry, there has been a persistent mismatch between what the education system produces and what employers actually need. Employers frequently cite soft skills, work ethics, and the inability to verify competency as top hiring blockers — not a shortage of graduates.</p>
+    <div class="callout">
+      <strong>Key finding:</strong> Only about 38,000 of Zambia's 6.4 million youth (roughly 0.05%) had access to any formal skills training in the most recently surveyed period. TEVETA is actively expanding — including 3- and 6-month skilling programmes and a new 2025–2027 strategic plan — producing a growing pipeline of trade graduates with nowhere structured to go.
+    </div>
+  </section>
+
+  <!-- TABLE: SECTOR DEMAND -->
+  <section class="section">
+    <div class="section-num">02 · Sector-by-Sector Opportunity</div>
+    <h2>Three Sectors with Immediate Hiring Pressure</h2>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Sector</th>
+          <th>Demand Signal</th>
+          <th>Evidence</th>
+          <th>Guildpost Fit</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Solar Installation</strong></td>
+          <td><span class="badge green">Explosive</span></td>
+          <td>Zambia doubled solar capacity in 2024 (69 MW), became Africa's 4th-largest solar market. Government targeting 1,000 MW addition by end of 2025. Multiple large projects underway, including a $65M 60 MW/20 MWh plant in Choma. The 2024 drought exposed dangerous reliance on hydro and catalysed a national pivot to solar.</td>
+          <td><span class="badge green">Excellent</span></td>
+        </tr>
+        <tr>
+          <td><strong>Construction &amp; Electrical</strong></td>
+          <td><span class="badge green">Strong</span></td>
+          <td>Construction is a top formal-sector employer. One single solar project (Itimpi) employed over 1,220 workers during construction. Urban development in Lusaka continues, driven by population growth (2.8%/yr). Contractor hiring is heavily word-of-mouth due to no matching infrastructure.</td>
+          <td><span class="badge green">Excellent</span></td>
+        </tr>
+        <tr>
+          <td><strong>HVAC / Mechanical</strong></td>
+          <td><span class="badge amber">Steady</span></td>
+          <td>Growing commercial real estate and hospitality sector in Lusaka drives demand. Skills supply from TEVETA institutions exists but placement is informal. TEVETA recently rebranded programmes to better align with industry nomenclature.</td>
+          <td><span class="badge amber">Good</span></td>
+        </tr>
+        <tr>
+          <td><strong>Mining-Adjacent Trades</strong></td>
+          <td><span class="badge amber">Medium</span></td>
+          <td>Zambia targeting 3 million metric tonnes of copper by 2030, with $2B+ in secured investment. TEVETA-Hitachi partnership signed March 2026 to produce construction equipment operators. Skills gap in earthmoving and maintenance roles is confirmed by industry.</td>
+          <td><span class="badge amber">Medium-term</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="callout positive">
+      <strong>Solar is the standout opportunity.</strong> Zambia's government has cut red tape on solar investment, is targeting 200 solar mini-grids by 2030, and 8.5 million Zambians still lack electricity access. Every project needs certified solar installers. Guildpost, positioned as the verified source of solar-ready tradespeople, could become an essential supplier to project developers.
+    </div>
+  </section>
+
+  <!-- SECTION 3: DIGITAL INFRASTRUCTURE -->
+  <section class="section">
+    <div class="section-num">03 · Digital Infrastructure</div>
+    <h2>Mobile-First is the Only Strategy That Makes Sense</h2>
+    <p>Zambia's digital landscape is a study in contrasts. Internet penetration sits at only 31% of the population (6.5 million users) — meaning two-thirds of the country is offline. However, mobile connections have reached 109 per 100 people, and 4G network coverage now reaches 91% of the population. Mobile is not just dominant; it is essentially the only digital channel that matters at scale.</p>
+
+    <div class="two-col">
+      <div class="col-block">
+        <h3>Strengths</h3>
+        <ul>
+          <li>21.9 million mobile subscriptions by mid-2024 (109% penetration)</li>
+          <li>91% of population has 4G access</li>
+          <li>Mobile money accounts held by almost half the population — outpacing traditional banking 5:1</li>
+          <li>WhatsApp penetration is very high among smartphone users (71% of smartphone users)</li>
+          <li>Financial inclusion jumped from 38% (2009) to 69.4% (2020), mostly via mobile money</li>
+          <li>Lusaka is emerging as a regional fintech hub — supportive regulatory environment</li>
+        </ul>
+      </div>
+      <div class="col-block">
+        <h3>Constraints</h3>
+        <ul>
+          <li>Only 31% internet penetration — digital-only reach is limited</li>
+          <li>Mobile internet cost is 4.8% of average income — high relative burden</li>
+          <li>Smartphone penetration still growing — feature phones remain common</li>
+          <li>Rural areas have low connectivity despite infrastructure build-out</li>
+          <li>Power outages (load shedding) disrupt consistent digital access</li>
+          <li>Low digital literacy among older tradespeople</li>
+        </ul>
+      </div>
+    </div>
+
+    <p>The implication is direct: Guildpost's early product must work on WhatsApp or basic mobile browsers. An app-download strategy is too high a barrier for the initial worker audience. The payment infrastructure is actually strong — MTN MoMo and Airtel Money allow frictionless mobile payments, which means pay-per-hire transactions are entirely feasible without bank accounts on either side.</p>
+  </section>
+
+  <!-- SECTION 4: COMPETITIVE LANDSCAPE -->
+  <section class="section">
+    <div class="section-num">04 · Competitive Landscape</div>
+    <h2>No Credible Direct Competitor in Zambia Today</h2>
+    <p>Across Africa, several platforms have built significant labour-matching operations — Jobberman in Nigeria and Ghana, BrighterMonday in East Africa, Fuzu in Kenya. A newer generation includes ProGigFinder (Uganda-founded, covering trades), Upkazi (pan-African freelance), and various digital career tools. However, the critical gap: none of these platforms has meaningful penetration in Zambia's skilled trades market.</p>
+    <p>Zambia's startup ecosystem ranks #112 globally and #3 in Southern Africa (behind South Africa and Zimbabwe). The top funded Zambian startups are concentrated in fintech, agritech, and e-commerce — not labour-matching for tradespeople. There is no known platform specifically targeting electrical, HVAC, or solar workers in Zambia. This is the white space.</p>
+    <div class="callout">
+      <strong>The closest competition is WhatsApp itself.</strong> Contractors already form informal hiring groups and broadcast availability there. Guildpost is not competing against a rival platform — it is competing against the friction cost of informal search. That is a winnable position, especially if it provides something WhatsApp cannot: verified credentials and a persistent worker reputation profile.
+    </div>
+    <p>The World Economic Forum and BCG research confirm that in Africa broadly, the most successful labour marketplaces succeed not by replacing existing informal behaviour, but by adding a layer of trust and efficiency on top of it. This reinforces the manual-first strategy.</p>
+  </section>
+
+  <!-- SECTION 5: RISKS -->
+  <section class="section">
+    <div class="section-num">05 · Risk Assessment</div>
+    <h2>The Risks Are Real — But Manageable With the Right Approach</h2>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Risk</th>
+          <th>Severity</th>
+          <th>Likelihood</th>
+          <th>Mitigation</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Platform adoption — preference for WhatsApp</strong></td>
+          <td><span class="badge amber">Medium</span></td>
+          <td><span class="badge red">High</span></td>
+          <td>Start with zero app requirement. Operate through WhatsApp or a simple web link. Only build a dedicated app when you've validated 50+ successful placements.</td>
+        </tr>
+        <tr>
+          <td><strong>Contractors won't pay subscriptions</strong></td>
+          <td><span class="badge amber">Medium</span></td>
+          <td><span class="badge red">High</span></td>
+          <td>Never start with subscriptions. Pay-per-hire only. Build trust through results first. Subscriptions are a Year 2+ product.</td>
+        </tr>
+        <tr>
+          <td><strong>Credential verification is hard</strong></td>
+          <td><span class="badge red">High</span></td>
+          <td><span class="badge amber">Medium</span></td>
+          <td>Partner with TEVETA directly — they maintain the national registry of certified tradespeople. A TEVETA-verified badge is more credible than anything Guildpost could build independently. An MoU with TEVETA should be an early priority.</td>
+        </tr>
+        <tr>
+          <td><strong>Low formal sector density outside Lusaka</strong></td>
+          <td><span class="badge amber">Medium</span></td>
+          <td><span class="badge green">Managed</span></td>
+          <td>Lusaka alone has a population of ~3.5 million and the highest concentration of contractors and trade graduates in the country. Stay there for at least the first 12–18 months.</td>
+        </tr>
+        <tr>
+          <td><strong>Trust deficit — workers fear scams</strong></td>
+          <td><span class="badge red">High</span></td>
+          <td><span class="badge amber">Medium</span></td>
+          <td>Manual facilitation builds personal trust. Every placement should involve a phone/WhatsApp call from the Guildpost founder to both parties. Human intermediary = trust proxy in early stage.</td>
+        </tr>
+        <tr>
+          <td><strong>Internet cost barriers for workers</strong></td>
+          <td><span class="badge amber">Medium</span></td>
+          <td><span class="badge amber">Medium</span></td>
+          <td>Guildpost can absorb data costs initially by communicating via SMS or zero-rated WhatsApp. This is a solvable operational cost at small scale.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout risk">
+      <strong>The most underrated risk:</strong> TEVETA currently graduates thousands of tradespeople annually, but the World Bank confirms that only 8% of TEVETA institutions meet acceptable quality standards. This means a verified credential from TEVETA is necessary but not sufficient. Guildpost will eventually need its own work-sample or practical test protocol to differentiate A-players from paper-qualified graduates.
+    </div>
+  </section>
+
+  <!-- SECTION 6: COMPARABLE MODELS -->
+  <section class="section">
+    <div class="section-num">06 · Evidence From Comparable Markets</div>
+    <h2>What Africa's Labour Marketplaces Have Taught Us</h2>
+    <p>Several analogues give confidence that Guildpost's model is viable — not just theoretically, but operationally:</p>
+    <div class="two-col">
+      <div class="col-block">
+        <h3>What Works in Africa</h3>
+        <ul>
+          <li>Mobile-money payment rails eliminate the need for bank accounts on either side of a transaction</li>
+          <li>Platforms that embed trust-building (human verification, ratings, endorsements) outperform pure listing boards</li>
+          <li>Starting with a single city and single sector before expanding is the consistent success pattern for East/Southern African platforms</li>
+          <li>Partnerships with training institutions (like Andela's model) dramatically accelerate supply-side quality and trust</li>
+          <li>WhatsApp as a primary communication layer — not an app — is increasingly the standard for Africa-native platforms</li>
+        </ul>
+      </div>
+      <div class="col-block">
+        <h3>What Fails</h3>
+        <ul>
+          <li>Importing Western platform models without adapting to local informal hiring norms</li>
+          <li>Requiring app downloads before value is proven</li>
+          <li>Charging subscription fees before contractors see demonstrated ROI</li>
+          <li>Focusing on tech-sector workers instead of the much larger informal trades economy</li>
+          <li>Scaling to multiple cities before achieving density in one (the "thin market" problem kills two-sided marketplaces)</li>
+          <li>Underestimating the value of human intermediaries in low-trust environments</li>
+        </ul>
+      </div>
+    </div>
+    <p>The World Economic Forum's research on African gig platforms also highlights that platforms creating genuine skills certification and career progression — not just job listings — generate the strongest long-term loyalty and network effects. Guildpost's vision of a digital reputation system for tradespeople is not just idealistic; it is the product that will create durable competitive advantage over time.</p>
+  </section>
+
+  <!-- SECTION 7: GO-TO-MARKET REFINEMENT -->
+  <section class="section">
+    <div class="section-num">07 · Refined Go-To-Market Recommendations</div>
+    <h2>What the Data Suggests You Should Do Next</h2>
+    <p>Based on the research, here are specific, evidence-grounded refinements to the Guildpost go-to-market plan:</p>
+    <div class="callout positive">
+      <strong>Lead with solar, not construction.</strong> Solar is Zambia's fastest-growing sector with documented, urgent skills shortages and well-funded project developers who need reliable sub-contractors. A solar project developer is far more likely to pay a placement fee than a small residential contractor. Your first 5 contractor relationships should be solar-adjacent.
+    </div>
+    <div class="callout positive">
+      <strong>Pursue a TEVETA partnership early.</strong> TEVETA already has 13,686 students on bursaries for the 2026 academic year, a national registry of certified tradespeople, and an active mandate to improve employment outcomes. Approaching TEVETA with a formal MoU offer to provide employment data and placement outcomes in exchange for access to their graduate database is a low-cost, high-leverage move. This also provides instant credibility with contractors.
+    </div>
+    <div class="callout positive">
+      <strong>Use mobile money as the payment layer from day one.</strong> MTN MoMo and Airtel Money are already used by nearly half the Zambian population. Structuring the pay-per-hire fee as a mobile money transaction — sent only upon confirmed placement — removes the single biggest objection from contractors (credit risk) and is technically simple to implement.
+    </div>
+    <div class="callout">
+      <strong>Target Lusaka's construction boom specifically.</strong> The capital has the highest concentration of active contractors, the most TEVETA graduates, and the best digital infrastructure. Do not expand to Ndola, Kitwe, or Livingstone until you have placed at least 30 workers in Lusaka and have 10 returning contractor clients.
+    </div>
+  </section>
+
+</div><!-- /container -->
+</main>
+
+<!-- FINAL VERDICT -->
+<div class="final-verdict">
+  <div class="container">
+    <div>
+      <div class="verdict-score-big">Yes.</div>
+      <div class="verdict-score-sub">Overall Assessment</div>
+    </div>
+    <div class="verdict-right">
+      <h2>Guildpost Can Work in Zambia — The Conditions Are Unusually Favourable Right Now</h2>
+      <p>The structural gap between skilled graduates and contractors is confirmed by World Bank, ILO, and TEVETA data. Zambia's solar boom is creating urgent, funded demand for certified tradespeople. Mobile money infrastructure removes the payment friction that kills early-stage platforms. And no credible competitor exists in the space today.</p>
+      <p>The risks are real — low platform adoption, contractor reluctance to pay, credential verification challenges — but all are manageable through the manual-first, trust-first approach the concept already proposes. The biggest mistake would be to over-engineer the solution before validating that a contractor will pay for one placement.</p>
+      <p>The single most important data point: Zambia's government has committed to adding 1,000 MW of solar by end of 2025 and has 200 mini-grids planned by 2030. Every one of those projects needs certified solar installers. Guildpost, positioned as the trusted source for verified solar tradespeople in Zambia, could capture a significant and growing market with a simple WhatsApp-based matching service — no app required.</p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  Guildpost Zambia · Deep Research Report · April 2026 · Sources: World Bank, ILO, TEVETA, ZICTA, Global Solar Council, Brookings, BCG, DataReportal, ESI-Africa
+</footer>
+
+</body>
+</html>
